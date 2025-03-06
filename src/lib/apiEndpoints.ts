@@ -1,10 +1,10 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL; // Use your backend's base URL
+const BASE_URL = process.env.API_URL; // Use your backend's base URL
 // TODO Change Endpoints according to backend
 export const apiEndpoints = {
   auth: {
-    login: `${BASE_URL}/auth/login`,
-    register: `${BASE_URL}/auth/register`,
-    refreshToken: `${BASE_URL}/auth/refresh-token`,
+    login: `${BASE_URL}/login`,
+    register: `${BASE_URL}/register`,
+    refreshToken: `${BASE_URL}/refresh-token`,
   },
   users: {
     getUser: (userId: string) => `${BASE_URL}/users/${userId}`,

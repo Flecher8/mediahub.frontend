@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: process.env.NEXT_PUBLIC_API_URL, // Use an env variable for your API URL
+	baseURL: process.env.API_URL, // Use an env variable for your API URL
 	timeout: 10000, // Optional timeout setting
   withCredentials: true,
 	headers: {
