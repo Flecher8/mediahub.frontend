@@ -62,7 +62,7 @@ export default function LoggedOutHeader() {
 
 			{/* Desktop menu: shown only on medium and larger screens */}
 			<div className="hidden md:flex lg:flex navbar-end space-x-4">
-				<Link href="/" className="btn btn-ghost normal-case text-lg">
+				<Link href={rounter.library} className="btn btn-ghost normal-case text-lg">
 					Library
 				</Link>
 				<Link href="/" className="btn btn-ghost normal-case text-lg">
