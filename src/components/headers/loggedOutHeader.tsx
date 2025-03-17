@@ -65,22 +65,22 @@ export default function LoggedOutHeader() {
 				<Link href={rounter.library} className="btn btn-ghost normal-case text-lg">
 					Library
 				</Link>
-				<Link href="/" className="btn btn-ghost normal-case text-lg">
+				{/* <Link href="/" className="btn btn-ghost normal-case text-lg">
 					Collections
-				</Link>
+				</Link> */}
 				<Link href="/" className="btn btn-ghost normal-case text-lg">
 					About
 				</Link>
 				<Link href={rounter.login} className="btn btn-ghost normal-case text-lg">
 					Log in
 				</Link>
-				<Link href={rounter.registration} className="btn btn-primary normal-case text-lg">
+				<Link href={rounter.registration} className="btn btn-accent normal-case text-lg">
 					Sign up
 				</Link>
 			</div>
 
 			<div className="flex md:hidden lg:hidden navbar-end space-x-4">
-				<Link href={rounter.registration} className="btn btn-primary normal-case text-lg">
+				<Link href={rounter.registration} className="btn btn-accent normal-case text-lg">
 					Sign up
 				</Link>
 			</div>

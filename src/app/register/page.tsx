@@ -11,7 +11,7 @@ export default async function RegisterPage() {
             <RegistrationForm />
             <p className="text-center mt-4">
               Already registered?{" "}
-              <Link href="/login" className="text-primary">
+              <Link href="/login" className="text-accent">
                 Login
               </Link>
             </p>

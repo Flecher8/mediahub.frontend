@@ -11,17 +11,17 @@ export default function LibraryPage() {
         <div className="h-12"></div>
 
         {/* Row 1, Column 2: Search Bar with fixed height */}
-        <div className="h-12">
+        <div className="container h-12">
           <input
             type="text"
             placeholder="Search media..."
-            className="input input-bordered w-full h-full"
+            className="input input-bordered input-accent w-full h-full"
           />
         </div>
 
         {/* Row 2, Column 1: Filters Panel */}
         <div>
-          <div className="card bg-base-100 shadow-xl p-4">
+          <div className="container card bg-base-100 shadow-xl p-4">
             <h2 className="text-xl font-bold mb-2">Filters</h2>
             {/* Example filter options */}
             <div className="form-control">
@@ -41,7 +41,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Row 2, Column 2: Media Grid and Pagination */}
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <MediaGrid mediaList={testMedia} />
           <div className="flex justify-center mt-4">
             <div className="btn-group">
@@ -62,7 +62,7 @@ export default function LibraryPage() {
           <input
             type="text"
             placeholder="Search media..."
-            className="input input-bordered w-full h-full"
+            className="input input-bordered input-accent w-full h-full"
           />
         </div>
 
@@ -88,7 +88,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Media Grid and Pagination */}
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <MediaGrid mediaList={testMedia} />
           <div className="flex justify-center mt-4">
             <div className="btn-group">

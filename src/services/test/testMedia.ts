@@ -31,5 +31,20 @@ export const testMedia: MediaItem[] = [
     name: "Media Six",
     image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
   },
+  {
+    id: "7",
+    name: "Media Seven",
+    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+  },
+  {
+    id: "8",
+    name: "Media Eight",
+    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+  },
+  {
+    id: "9",
+    name: "Media Nine",
+    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+  },
   // Add more test items as needed
 ];

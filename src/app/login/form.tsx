@@ -67,7 +67,7 @@ export default function LoginForm() {
 				{errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
 			</div>
 			<div className="form-control mt-8 flex justify-center">
-				<button type="submit" className="btn btn-primary text-lg">
+				<button type="submit" className="btn btn-accent text-lg">
 					Login
 				</button>
 			</div>

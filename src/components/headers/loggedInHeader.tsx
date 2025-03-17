@@ -66,25 +66,25 @@ export default async function LoggedInHeader() {
 				<Link href={rounter.library} className="btn btn-ghost normal-case text-lg">
 					Library
 				</Link>
-				<Link href="/" className="btn btn-ghost normal-case text-lg">
+				<Link href={rounter.collections} className="btn btn-ghost normal-case text-lg">
 					Collections
 				</Link>
 				<Link href="/" className="btn btn-ghost normal-case text-lg">
 					About
 				</Link>
-				<Link href={rounter.login} className="btn btn-primary normal-case text-lg">
+				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
 					<i className="fa-regular fa-user"></i>
 				</Link>
-				<Link href={rounter.registration} className="btn btn-primary btn-outline normal-case text-lg">
+				<Link href={rounter.registration} className="btn btn-accent btn-outline normal-case text-lg">
 					<i className="fa-solid fa-arrow-right-from-bracket"></i>
 				</Link>
 			</div>
 
 			<div className="flex md:hidden lg:hidden navbar-end space-x-4">
-				<Link href={rounter.login} className="btn btn-primary normal-case text-lg">
+				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
 					<i className="fa-regular fa-user"></i>
 				</Link>
-				<Link href={rounter.login} className="btn btn-primary btn-outline normal-case text-lg">
+				<Link href={rounter.login} className="btn btn-accent btn-outline normal-case text-lg">
 					<i className="fa-solid fa-arrow-right-from-bracket"></i>
 				</Link>
 			</div>

@@ -3,5 +3,6 @@ export const rounter = {
 	login: "/login",
 	registration: "/register",
 	library: "/library",
+	collections: "/collections",
 	profile(userId: string){ return (`/profile/` + userId)}
 };

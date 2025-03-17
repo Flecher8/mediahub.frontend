@@ -37,7 +37,7 @@ export default function RegistrationForm() {
 
 		const result = await registerUser(registrationData);
 		if (result.success) {
-			redirect(null, '/');
+			// redirect(null, '/');
 			console.log("Login successful", result.success);
 		} else {
 			// Handle error (e.g. show an error message in the UI)
@@ -90,7 +90,7 @@ export default function RegistrationForm() {
 			</div>
 
 			<div className="form-control mt-6 flex justify-center">
-				<button type="submit" className="btn btn-primary text-lg">
+				<button type="submit" className="btn btn-accent text-lg">
 					Register
 				</button>
 			</div>
