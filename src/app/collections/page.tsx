@@ -11,20 +11,23 @@ export default function CollectionsPage() {
 	};
 
 	return (
-		<div className="p-4">
+		<div className="">
 			{/* Header: Create button and title */}
-			<div className="flex items-center justify-between gap-4 mb-4">
+			<div className="flex items-center justify-between gap-4 mb-4 bg-neutral p-4">
 				<h1 className="text-3xl font-bold">Collections</h1>
-				<button className="btn btn-accent" onClick={() => (document.getElementById("my_modal_5") as HTMLDialogElement)?.showModal()}>
+				<button
+					className="btn btn-accent"
+					onClick={() => (document.getElementById("my_modal_5") as HTMLDialogElement)?.showModal()}>
 					Create
 				</button>
 			</div>
+			<div className="p-4">
+				{/* Collections Grid */}
+				<CollectionsGrid collectionList={testCollection} />
 
-			{/* Collections Grid */}
-			<CollectionsGrid collectionList={testCollection} />
-
-      {/* Create Collection Modal */}
-      <CreateCollectionModal onCreate={handleCreateCollection} />
+				{/* Create Collection Modal */}
+				<CreateCollectionModal onCreate={handleCreateCollection} />
+			</div>
 		</div>
 	);
 }

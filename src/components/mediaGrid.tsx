@@ -1,4 +1,5 @@
-import MediaCard, { MediaItem } from "./mediaCard";
+import { MediaItem } from "@/types/mediaItem";
+import MediaCard from "./mediaCard";
 
 interface MediaGridProps {
   mediaList: MediaItem[];

@@ -1,10 +1,5 @@
+import { CollectionItem } from "@/types/collectionItem";
 import Link from "next/link";
-
-export interface CollectionItem {
-  id: string;
-  name: string;
-  image: string;
-}
 
 interface CollectionCardProps {
   collection: CollectionItem;

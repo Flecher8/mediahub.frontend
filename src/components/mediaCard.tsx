@@ -1,10 +1,5 @@
+import { MediaItem } from "@/types/mediaItem";
 import Link from "next/link";
-
-export interface MediaItem {
-  id: string;
-  name: string;
-  image: string;
-}
 
 interface MediaCardProps {
   media: MediaItem;

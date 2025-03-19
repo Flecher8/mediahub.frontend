@@ -73,7 +73,7 @@ export default async function LoggedInHeader() {
 					About
 				</Link>
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
-					<i className="fa-regular fa-user"></i>
+					<i className="fa-solid fa-user"></i>
 				</Link>
 				<Link href={rounter.registration} className="btn btn-accent btn-outline normal-case text-lg">
 					<i className="fa-solid fa-arrow-right-from-bracket"></i>
@@ -82,7 +82,7 @@ export default async function LoggedInHeader() {
 
 			<div className="flex md:hidden lg:hidden navbar-end space-x-4">
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
-					<i className="fa-regular fa-user"></i>
+					<i className="fa-solid fa-user"></i>
 				</Link>
 				<Link href={rounter.login} className="btn btn-accent btn-outline normal-case text-lg">
 					<i className="fa-solid fa-arrow-right-from-bracket"></i>
