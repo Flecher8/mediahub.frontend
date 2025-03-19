@@ -1,8 +1,8 @@
-import { MediaItem } from "@/types/mediaItem";
+import { Media } from "@/types/media";
 import MediaCard from "./mediaCard";
 
 interface MediaGridProps {
-  mediaList: MediaItem[];
+  mediaList: Media[];
 }
 
 export default function MediaGrid({ mediaList }: MediaGridProps) {

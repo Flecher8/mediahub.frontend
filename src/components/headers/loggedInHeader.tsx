@@ -2,6 +2,9 @@ import { rounter } from "@/app/router";
 import { authStorage } from "@/services/auth/auth";
 import Link from "next/link";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
 export default async function LoggedInHeader() {
 	return (
 		<div className="navbar bg-base-200 px-4">
@@ -73,19 +76,19 @@ export default async function LoggedInHeader() {
 					About
 				</Link>
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
-					<i className="fa-solid fa-user"></i>
+					<FontAwesomeIcon icon={faUser} />
 				</Link>
 				<Link href={rounter.registration} className="btn btn-accent btn-outline normal-case text-lg">
-					<i className="fa-solid fa-arrow-right-from-bracket"></i>
+					<FontAwesomeIcon icon={faArrowRightFromBracket} />
 				</Link>
 			</div>
 
 			<div className="flex md:hidden lg:hidden navbar-end space-x-4">
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
-					<i className="fa-solid fa-user"></i>
+					<FontAwesomeIcon icon={faUser} />
 				</Link>
 				<Link href={rounter.login} className="btn btn-accent btn-outline normal-case text-lg">
-					<i className="fa-solid fa-arrow-right-from-bracket"></i>
+					<FontAwesomeIcon icon={faArrowRightFromBracket} />
 				</Link>
 			</div>
 		</div>

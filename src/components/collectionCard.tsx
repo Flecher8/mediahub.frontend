@@ -1,8 +1,8 @@
-import { CollectionItem } from "@/types/collectionItem";
+import { Collection } from "@/types/collection";
 import Link from "next/link";
 
 interface CollectionCardProps {
-  collection: CollectionItem;
+  collection: Collection;
 }
 
 export default function CollectionCard({ collection }: CollectionCardProps) {

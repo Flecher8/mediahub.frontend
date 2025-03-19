@@ -7,6 +7,10 @@ import LoggedInHeader from "@/components/headers/loggedInHeader";
 import Script from "next/script";
 import Head from "next/head";
 
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false;
+
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"]
@@ -29,13 +33,9 @@ export default async function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<Head>
-				<link rel="preload" href="/fontawesome.js" as="script" />
-			</Head>
 			<body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}>
 				<header>{authStorage.isAuthorized() ? <LoggedInHeader /> : <LoggedOutHeader />}</header>
 				<main className="flex-grow h-100">{children}</main>
-				<Script src="./fontawesome.js" async={false} strategy="beforeInteractive" />
 			</body>
 		</html>
 	);

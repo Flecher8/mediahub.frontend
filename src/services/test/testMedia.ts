@@ -1,9 +1,10 @@
-import { MediaItem } from "@/types/mediaItem";
+import { Media } from "@/types/media";
 
-export const testMedia: MediaItem[] = [
+export const testMedia: Media[] = [
   {
     id: "1",
     name: "Media One",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [
@@ -14,6 +15,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "2",
     name: "Media Two",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [
@@ -24,6 +26,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "3",
     name: "Media Three",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [{ id: "1", name: "Action" }],
@@ -31,6 +34,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "4",
     name: "Media Four",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [{ id: "4", name: "Drama" }],
@@ -38,6 +42,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "5",
     name: "Media Five",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [{ id: "3", name: "Comedy" }],
@@ -45,6 +50,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "6",
     name: "Media Six",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [{ id: "5", name: "Sci-Fi" }],
@@ -52,6 +58,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "7",
     name: "Media Seven",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [
@@ -62,6 +69,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "8",
     name: "Media Eight",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [{ id: "6", name: "Horror" }],
@@ -69,6 +77,7 @@ export const testMedia: MediaItem[] = [
   {
     id: "9",
     name: "Media Nine",
+    type: "Game",
     image:
       "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     genres: [

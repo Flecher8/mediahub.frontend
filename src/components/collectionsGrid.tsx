@@ -1,8 +1,8 @@
-import { CollectionItem } from "@/types/collectionItem";
+import { Collection } from "@/types/collection";
 import CollectionCard from "./collectionCard";
 
 interface CollectionGridProps {
-  collectionList: CollectionItem[];
+  collectionList: Collection[];
 }
 
 export default function CollectionsGrid({ collectionList }: CollectionGridProps) {

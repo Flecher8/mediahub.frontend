@@ -1,8 +1,8 @@
-import { MediaItem } from "@/types/mediaItem";
+import { Media } from "@/types/media";
 import Link from "next/link";
 
 interface MediaCardProps {
-  media: MediaItem;
+  media: Media;
 }
 
 export default function MediaCard({ media }: MediaCardProps) {
