@@ -4,14 +4,14 @@ import { testMedia } from "@/services/test/testMedia";
 
 export default function LibraryPage() {
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       {/* Large screen layout: 2 columns (empty cell + search bar in row 1, filters and grid in row 2) */}
       <div className="hidden lg:grid grid-cols-[1fr_5fr] gap-4">
         {/* Row 1, Column 1: Empty cell with fixed height */}
-        <div className="h-12"></div>
+        <div className="h-10"></div>
 
         {/* Row 1, Column 2: Search Bar with fixed height */}
-        <div className="container h-12">
+        <div className="container h-10">
           <input
             type="text"
             placeholder="Search media..."
@@ -41,7 +41,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Row 2, Column 2: Media Grid and Pagination */}
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full">
           <MediaGrid mediaList={testMedia} />
           <div className="flex justify-center mt-4">
             <div className="btn-group">
@@ -58,7 +58,7 @@ export default function LibraryPage() {
       {/* Small and medium screens layout: 1 column ordering: search bar, filters, media grid & pagination */}
       <div className="grid grid-cols-1 gap-4 lg:hidden">
         {/* Search Bar */}
-        <div className="h-12">
+        <div className="h-10">
           <input
             type="text"
             placeholder="Search media..."
@@ -88,7 +88,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Media Grid and Pagination */}
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full">
           <MediaGrid mediaList={testMedia} />
           <div className="flex justify-center mt-4">
             <div className="btn-group">

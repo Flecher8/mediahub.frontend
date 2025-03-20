@@ -7,7 +7,7 @@ import { faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-ico
 
 export default async function LoggedInHeader() {
 	return (
-		<div className="navbar bg-base-200 px-4">
+		<div className="navbar bg-base-200 px-4 container">
 			<div className="navbar-start">
 				{/* Mobile view: visible on small screens */}
 				<div className="flex w-full items-center md:hidden lg:hidden">

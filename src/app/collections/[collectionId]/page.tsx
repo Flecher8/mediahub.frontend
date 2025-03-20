@@ -21,15 +21,17 @@ export default function CollectionPage() {
 	}
 
 	return (
-		<div className="">
+		<div className="w-full h-full">
 			{/* Header: Name and Settings Button */}
-			<div className="flex items-center justify-between mb-4 bg-neutral p-4">
-				<h1 className="text-3xl font-bold truncate max-w-[500px]">{collection.name}</h1>
-				<Link href={`/collections/${collection.id}/settings`} className="btn btn-accent">
-					Settings
-				</Link>
+			<div className="flex justify-center mb-4 p-4">
+				<div className="container flex items-center justify-between w-full h-full pb-4 border-b border-neutral">
+					<h1 className="text-3xl font-bold truncate max-w-[500px]">{collection.name}</h1>
+					<Link href={`/collections/${collection.id}/settings`} className="btn btn-accent">
+						Settings
+					</Link>
+				</div>
 			</div>
-			<div className="p-4">
+			<div className="flex justify-center w-full p-4">
 				{/* Media List */}
 				<MediaList mediaItems={collection.mediaItems} collectionId={collection.id} />
 			</div>

@@ -34,8 +34,8 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}>
-				<header>{authStorage.isAuthorized() ? <LoggedInHeader /> : <LoggedOutHeader />}</header>
-				<main className="flex-grow h-100">{children}</main>
+				<header className="flex justify-center bg-base-200">{authStorage.isAuthorized() ? <LoggedInHeader /> : <LoggedOutHeader />}</header>
+				<main className="flex justify-center h-full w-full">{children}</main>
 			</body>
 		</html>
 	);

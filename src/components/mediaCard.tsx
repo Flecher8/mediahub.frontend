@@ -8,7 +8,7 @@ interface MediaCardProps {
 export default function MediaCard({ media }: MediaCardProps) {
   return (
     <Link href={`/media/${media.id}`} className="flex items-center justify-center">
-      <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer max-w-[300px] max-h-[500px]">
+      <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer">
         <figure>
           <img
             src={media.image}

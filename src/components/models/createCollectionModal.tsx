@@ -20,7 +20,7 @@ export default function CreateCollectionModal({ onCreate }: CreateCollectionModa
 
   return (
     <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-      <div className="modal-box">
+      <form method="dialog" className="modal-box">
         <h3 className="font-bold text-lg">Create Collection</h3>
         <p className="py-4">Enter the name for the new collection:</p>
         <input
@@ -31,13 +31,13 @@ export default function CreateCollectionModal({ onCreate }: CreateCollectionModa
           onChange={(e) => setCollectionName(e.target.value)}
         />
         <div className="modal-action">
-          <button className="btn btn-primary" onClick={handleCreate}>Create</button>
+          <button className="btn btn-accent" onClick={handleCreate}>Create</button>
           <button className="btn" onClick={() => {
             const modal = document.getElementById("my_modal_5") as HTMLDialogElement;
             modal.close();
           }}>Close</button>
         </div>
-      </div>
+      </form>
     </dialog>
   );
 }
