@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
 
-interface DeleteConfirmationModalProps {
+interface DeleteMediaConfirmationModalProps {
   isOpen: boolean;
   mediaName: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-export default function DeleteConfirmationModal({
+export default function DeleteMediaConfirmationModal({
   isOpen,
   mediaName,
   onConfirm,
   onCancel,
-}: DeleteConfirmationModalProps) {
+}: DeleteMediaConfirmationModalProps) {
   if (!isOpen) return null;
 
   return (
