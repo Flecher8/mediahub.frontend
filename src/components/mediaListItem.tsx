@@ -1,15 +1,15 @@
 // components/MediaListItem.tsx
 "use client";
-import { Media } from "@/types/media";
+import { MediaContent } from "@/types/mediaContent";
 import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface MediaListItemProps {
-	media: Media;
+	media: MediaContent;
 	collectionId: string;
-	onRequestDelete: (media: Media) => void;
+	onRequestDelete: (media: MediaContent) => void;
 }
 
 export default function MediaListItem({ media, collectionId, onRequestDelete }: MediaListItemProps) {
@@ -17,10 +17,14 @@ export default function MediaListItem({ media, collectionId, onRequestDelete }: 
 		<div className="bg-base-200 p-4 rounded flex items-center justify-between">
 			{/* Left side: Image + Info */}
 			<div className="flex gap-4 w-full">
-				<img src={media.image} alt={media.name} className="object-cover rounded max-w-[300px] max-h-[400px]" />
+				<img
+					src={media.mainPictureLink}
+					alt={media.title}
+					className="object-cover rounded max-w-[300px] max-h-[400px]"
+				/>
 				<div className="flex flex-col justify-center">
-					<h2 className="text-5xl font-bold truncate">{media.name}</h2>
-					<p className="text-2xl">Type: {media.type || "Unknown"}</p>
+					<h2 className="text-5xl font-bold truncate">{media.title}</h2>
+					<p className="text-2xl">Type: {media.mediaContentType.name || "Unknown"}</p>
 					<p className="text-2xl">Genres: {media.genres.map(g => g.name).join(", ")}</p>
 				</div>
 			</div>

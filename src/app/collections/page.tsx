@@ -1,13 +1,35 @@
 "use client";
 import CollectionsGrid from "@/components/collectionsGrid";
-import { testCollection } from "@/services/test/testCollection";
 import CreateCollectionModal from "@/components/models/createCollectionModal";
 import Link from "next/link";
+import { RecommendationCollection } from "@/types/recommendationCollection";
+import { useEffect, useState } from "react";
+import { authStorage } from "@/services/auth/auth";
+import { CollectionsService } from "@/services/collectionsService";
 
 export default function CollectionsPage() {
+	const [collections, setCollections] = useState<RecommendationCollection[] | null>(null);
+	const [error, setError] = useState<string | null>(null);
+
+	const user = authStorage.getUserData();
+
+	useEffect(() => {
+		CollectionsService.getUserCollections(user.id)
+			.then(setCollections)
+			.catch(e => setError(e.message));
+	}, []);
+
+	if (!collections) {
+		return <div>Loading...</div>;
+	}
+
+	if (error !== null) {
+		return <div>Error</div>;
+	}
 	const handleCreateCollection = (name: string) => {
 		console.log("Create collection:", name);
-		// TODO: Replace with actual collection creation logic (e.g. API call or state update)
+		CollectionsService.createCollection(user.id, name);
+		window.location.reload();
 	};
 
 	return (
@@ -25,7 +47,7 @@ export default function CollectionsPage() {
 			</div>
 			<div className="p-4">
 				{/* Collections Grid */}
-				<CollectionsGrid collectionList={testCollection} />
+				<CollectionsGrid collectionList={collections} />
 
 				{/* Create Collection Modal */}
 				<CreateCollectionModal onCreate={handleCreateCollection} />

@@ -1,60 +1,69 @@
-import { Collection } from "@/types/collection";
+import { RecommendationCollection } from "@/types/recommendationCollection";
 import { testMedia } from "./testMedia";
 
-export const testCollection: Collection[] = [
+export const testCollection: RecommendationCollection[] = [
   {
-    id: "1",
+    collectionId: "1",
     name: "Collection One11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111 ",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "2",
+    collectionId: "2",
     name: "Collection Two",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "3",
+    collectionId: "3",
     name: "Collection Three",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "4",
+    collectionId: "4",
     name: "Collection Four",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "5",
+    collectionId: "5",
     name: "Collection Five",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "6",
+    collectionId: "6",
     name: "Collection Six",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "7",
+    collectionId: "7",
     name: "Collection Seven",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "8",
+    collectionId: "8",
     name: "Collection Eight",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   {
-    id: "9",
+    collectionId: "9",
     name: "Collection Nine",
-    image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
+    // image: "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg",
     mediaItems: testMedia,
+    recommendationCollectionUserAccess: [],
   },
   // Add more test items as needed
 ];

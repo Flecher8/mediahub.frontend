@@ -42,7 +42,7 @@ export default async function LoggedInHeader() {
 									</Link>
 								</li>
 								<li>
-									<Link href="/" className="btn btn-ghost normal-case text-lg">
+									<Link href={rounter.about} className="btn btn-ghost normal-case text-lg">
 										About
 									</Link>
 								</li>
@@ -72,7 +72,7 @@ export default async function LoggedInHeader() {
 				<Link href={rounter.collections} className="btn btn-ghost normal-case text-lg">
 					Collections
 				</Link>
-				<Link href="/" className="btn btn-ghost normal-case text-lg">
+				<Link href={rounter.about} className="btn btn-ghost normal-case text-lg">
 					About
 				</Link>
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">

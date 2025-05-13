@@ -1,26 +1,28 @@
-import { Media } from "@/types/media";
+import { MediaContent } from "@/types/mediaContent";
 import MediaListItem from "./mediaListItem";
 import { useState } from "react";
 import DeleteMediaConfirmationModal from "./models/deleteMediaConfirmationModal";
+import { CollectionsService } from "@/services/collectionsService";
 
 interface MediaListProps {
-	mediaItems: Media[];
+	mediaItems: MediaContent[];
 	collectionId: string;
 }
 
 export default function MediaList({ mediaItems, collectionId }: MediaListProps) {
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [selectedMedia, setSelectedMedia] = useState<Media | null>(null);
+	const [selectedMedia, setSelectedMedia] = useState<MediaContent | null>(null);
 
-	const handleRequestDelete = (media: Media) => {
+	const handleRequestDelete = (media: MediaContent) => {
 		setSelectedMedia(media);
 		setIsDeleteModalOpen(true);
 	};
 
 	const handleConfirmDelete = () => {
 		if (selectedMedia) {
-			console.log(`Deleting media ${selectedMedia.id} from collection ${collectionId}`);
-			// TODO: Replace with your deletion logic (API call or state update)
+			console.log(`Deleting media ${selectedMedia.mediaContentId} from collection ${collectionId}`);
+			CollectionsService.removeMediaFromCollection(collectionId, selectedMedia.mediaContentId);
+			window.location.reload();
 		}
 		setIsDeleteModalOpen(false);
 		setSelectedMedia(null);
@@ -36,7 +38,7 @@ export default function MediaList({ mediaItems, collectionId }: MediaListProps) 
 			<div className="flex flex-col gap-4 w-full h-full container">
 				{mediaItems.map(media => (
 					<MediaListItem
-						key={media.id}
+						key={media.mediaContentId}
 						media={media}
 						collectionId={collectionId}
 						onRequestDelete={handleRequestDelete}
@@ -45,7 +47,7 @@ export default function MediaList({ mediaItems, collectionId }: MediaListProps) 
 			</div>
 			<DeleteMediaConfirmationModal
 				isOpen={isDeleteModalOpen}
-				mediaName={selectedMedia?.name || ""}
+				mediaName={selectedMedia?.title || ""}
 				onConfirm={handleConfirmDelete}
 				onCancel={handleCancelDelete}
 			/>

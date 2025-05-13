@@ -1,185 +1,185 @@
+// app/collections/[collectionId]/settings/page.tsx
 "use client";
 
-import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { testCollection } from "@/services/test/testCollection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 import AddUserModal from "@/components/models/addUserModal";
 import DeleteUserModal from "@/components/models/deleteUserModal";
 import DeleteCollectionModal from "@/components/models/deleteCollectionModal";
 
-interface CollectionUser {
-  id: string;
-  email: string;
-}
+import { User } from "@/types/user";
+import { CollectionsService } from "@/services/collectionsService";
 
 export default function CollectionSettingsPage() {
-  const params = useParams();
-  const collectionId = params?.collectionId as string | undefined;
+	const params = useParams();
+	const router = useRouter();
+	const collectionId = params?.collectionId as string | undefined;
 
-  if (!collectionId) return <div>Missing collectionId</div>;
+	// Local UI state
+	const [collectionName, setCollectionName] = useState("");
+	const [users, setUsers] = useState<User[]>([]);
+	const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+	const [userToDelete, setUserToDelete] = useState<User | null>(null);
+	const [isDeleteCollectionModalOpen, setIsDeleteCollectionModalOpen] = useState(false);
 
-  const initialCollection = testCollection.find((c) => c.id === collectionId);
-  if (!initialCollection) return <div>Missing collection</div>;
+	// Load initial data
+	useEffect(() => {
+		if (!collectionId) return;
 
-  // State for collection name editing
-  const [collectionName, setCollectionName] = useState(initialCollection.name);
+		// 1) Fetch collection for its name
+		CollectionsService.getCollectionById(collectionId)
+			.then(col => {
+				if (col) setCollectionName(col.name);
+			})
+			.catch(console.error);
 
-  // Simulated user list (only emails)
-  const [users, setUsers] = useState<CollectionUser[]>([
-    { id: "1", email: "john@example.com" },
-    { id: "2", email: "jane@example.com" },
-  ]);
+		// 2) Fetch users in this collection
+		CollectionsService.getUsersInCollection(collectionId).then(setUsers).catch(console.error);
+	}, [collectionId]);
 
-  // State to control modals for adding and deleting users
-  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<CollectionUser | null>(null);
+	if (!collectionId) return <div>Missing collectionId</div>;
 
-  // State for Delete Collection modal
-  const [isDeleteCollectionModalOpen, setIsDeleteCollectionModalOpen] = useState(false);
+	// Save (rename) collection
+	const handleSaveChanges = async () => {
+		try {
+			// If you had an update endpoint, you'd call it here.
+			console.log(`(stub) rename collection ${collectionId} → ${collectionName}`);
+			// await CollectionsService.renameCollection(collectionId, collectionName);
+		} catch (e) {
+			console.error(e);
+		}
+	};
 
-  const handleSaveChanges = () => {
-    console.log(`Saving changes for collection ${collectionId}: new name = ${collectionName}`);
-    // TODO: API call to update the collection name.
-  };
+	// Delete entire collection
+	const handleConfirmDeleteCollection = async () => {
+		if (!collectionId) return;
+		try {
+			await CollectionsService.deleteCollection(collectionId);
+			router.push("/collections");
+		} catch (e) {
+			console.error(e);
+		}
+	};
 
-  // Open the delete collection modal instead of using confirm()
-  const openDeleteCollectionModal = () => {
-    setIsDeleteCollectionModalOpen(true);
-  };
+	// Add user
+	const handleAddUser = async (email: string) => {
+		if (!collectionId) return;
+		try {
+			await CollectionsService.addUserToCollection(collectionId, email);
+			setIsAddUserModalOpen(false);
+			window.location.reload();
+		} catch (e) {
+			console.error(e);
+		}
+	};
 
-  const handleConfirmDeleteCollection = () => {
-    console.log(`Deleting collection ${collectionId}`);
-    // TODO: API call to delete the collection.
-    setIsDeleteCollectionModalOpen(false);
-  };
+	// Delete user
+	const handleConfirmDeleteUser = async () => {
+		if (!collectionId || !userToDelete) return;
+		try {
+			await CollectionsService.removeUserFromCollection(collectionId, userToDelete.id);
+			setUsers(prev => prev.filter(u => u.id !== userToDelete.id));
+			setUserToDelete(null);
+		} catch (e) {
+			console.error(e);
+		}
+	};
 
-  const handleCancelDeleteCollection = () => {
-    setIsDeleteCollectionModalOpen(false);
-  };
+	return (
+		<div className="p-4 space-y-6 w-full container mx-auto">
+			{/* Header */}
+			<div className="flex items-center justify-between mb-6">
+				<h1 className="text-3xl font-bold">Settings</h1>
+				<Link href={`/collections/${collectionId}`} className="btn btn-soft btn-accent">
+					<FontAwesomeIcon icon={faArrowLeft} />
+				</Link>
+			</div>
 
-  // Handlers for managing users (Add and Delete)
-  const handleAddUser = (email: string) => {
-    const newUser = { id: Date.now().toString(), email };
-    setUsers((prev) => [...prev, newUser]);
-    console.log(`Added user ${email} to collection ${collectionId}`);
-    // TODO: API call to add the user.
-    setIsAddUserModalOpen(false);
-  };
+			{/* Edit Section */}
+			<div className="card bg-base-100 shadow-xl p-4 gap-5">
+				<h2 className="text-xl font-bold mb-2">Edit</h2>
+				<div className="form-control mb-4">
+					<label className="label">Name</label>
+					<input
+						type="text"
+						className="input input-bordered"
+						value={collectionName}
+						onChange={e => setCollectionName(e.target.value)}
+					/>
+				</div>
+				<div className="flex gap-4 justify-between">
+					<button className="btn btn-success btn-outline" onClick={handleSaveChanges}>
+						Save Changes
+					</button>
+					<button className="btn btn-error btn-outline" onClick={() => setIsDeleteCollectionModalOpen(true)}>
+						Delete Collection
+					</button>
+				</div>
+			</div>
 
-  const handleRequestDeleteUser = (user: CollectionUser) => {
-    setUserToDelete(user);
-  };
+			{/* Manage Users */}
+			<div className="card bg-base-100 shadow-xl p-4">
+				<div className="flex items-center justify-between mb-2">
+					<h2 className="text-xl font-bold">Manage Users</h2>
+					<button className="btn btn-primary" onClick={() => setIsAddUserModalOpen(true)}>
+						Add User
+					</button>
+				</div>
+				<div className="overflow-x-auto">
+					<table className="table w-full">
+						<thead>
+							<tr>
+								<th>Email</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{users.map(user => (
+								<tr key={user.id}>
+									<td>{user.email}</td>
+									<td>
+										<button className="btn btn-accent btn-sm" onClick={() => setUserToDelete(user)}>
+											<FontAwesomeIcon icon={faTrash} />
+										</button>
+									</td>
+								</tr>
+							))}
+							{users.length === 0 && (
+								<tr>
+									<td colSpan={2} className="text-center">
+										No users in this collection.
+									</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-  const handleConfirmDeleteUser = () => {
-    if (userToDelete) {
-      setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
-      console.log(`Removed user ${userToDelete.email} from collection ${collectionId}`);
-      // TODO: API call to remove the user.
-      setUserToDelete(null);
-    }
-  };
+			{/* Modals */}
+			<AddUserModal
+				isOpen={isAddUserModalOpen}
+				onAdd={handleAddUser}
+				onCancel={() => setIsAddUserModalOpen(false)}
+			/>
 
-  const handleCancelDeleteUser = () => {
-    setUserToDelete(null);
-  };
+			<DeleteUserModal
+				isOpen={!!userToDelete}
+				userEmail={userToDelete?.email || ""}
+				onConfirm={handleConfirmDeleteUser}
+				onCancel={() => setUserToDelete(null)}
+			/>
 
-  return (
-    <div className="p-4 space-y-6 w-full container">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Settings</h1>
-        <Link href={`/collections/${collectionId}`} className="btn btn-ghost">
-          Return
-        </Link>
-      </div>
-
-      {/* Collection Edit Section */}
-      <div className="card bg-base-100 shadow-xl p-4 gap-5">
-        <h2 className="text-xl font-bold mb-2">Edit</h2>
-        <div className="form-control mb-4">
-          <label className="label">Name</label>
-          <input
-            type="text"
-            className="input input-bordered"
-            value={collectionName}
-            onChange={(e) => setCollectionName(e.target.value)}
-          />
-        </div>
-        <div className="flex gap-4 justify-between">
-          <button className="btn btn-success btn-outline" onClick={handleSaveChanges}>
-            Save Changes
-          </button>
-          <button className="btn btn-error btn-outline" onClick={openDeleteCollectionModal}>
-            Delete Collection
-          </button>
-        </div>
-      </div>
-
-      {/* Manage Users Section */}
-      <div className="card bg-base-100 shadow-xl p-4">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xl font-bold">Manage Users</h2>
-          <button className="btn btn-primary" onClick={() => setIsAddUserModalOpen(true)}>
-            Add User
-          </button>
-        </div>
-        {/* Users List */}
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>Email</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.email}</td>
-                  <td>
-                    <button className="btn btn-accent btn-sm" onClick={() => handleRequestDeleteUser(user)}>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {users.length === 0 && (
-                <tr>
-                  <td colSpan={2} className="text-center">
-                    No users in this collection.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Add User Modal */}
-      <AddUserModal
-        isOpen={isAddUserModalOpen}
-        onAdd={handleAddUser}
-        onCancel={() => setIsAddUserModalOpen(false)}
-      />
-
-      {/* Delete User Modal */}
-      <DeleteUserModal
-        isOpen={!!userToDelete}
-        userEmail={userToDelete?.email || ""}
-        onConfirm={handleConfirmDeleteUser}
-        onCancel={handleCancelDeleteUser}
-      />
-
-      {/* Delete Collection Modal */}
-      <DeleteCollectionModal
-        isOpen={isDeleteCollectionModalOpen}
-        collectionName={collectionName}
-        onConfirm={handleConfirmDeleteCollection}
-        onCancel={handleCancelDeleteCollection}
-      />
-    </div>
-  );
+			<DeleteCollectionModal
+				isOpen={isDeleteCollectionModalOpen}
+				collectionName={collectionName}
+				onConfirm={handleConfirmDeleteCollection}
+				onCancel={() => setIsDeleteCollectionModalOpen(false)}
+			/>
+		</div>
+	);
 }
