@@ -6,6 +6,7 @@ import { MediaContent } from "@/types/mediaContent";
 import { useEffect, useState } from "react";
 
 import { authStorage } from "@/services/auth/auth";
+import { SelectedCollectionService } from "@/services/storages/selectedCollectionService";
 const MEDIA_TYPES = ["Film", "Serial", "Game", "Anime", "Manga"];
 
 export default function LibraryPage() {
@@ -15,13 +16,13 @@ export default function LibraryPage() {
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
-	const user = authStorage.getUserData();
+	const currentCollection = SelectedCollectionService.get();
 
 	useEffect(() => {
-		RecommendationService.getRecommendations(user.id)
+		RecommendationService.getRecommendations(currentCollection !== null ? currentCollection.id : null)
 			.then(setMediaList)
 			.catch(e => setError(e.message));
-	}, [user]);
+	}, [currentCollection]);
 
 	// Toggle a type filter on/off
 	const toggleType = (type: string) => {
@@ -74,8 +75,7 @@ export default function LibraryPage() {
 				{/* Row 2, Column 2: Media Grid and Pagination */}
 				<div className="flex flex-col items-center justify-center w-full">
 					<MediaGrid mediaList={filteredMediaList} />
-					<div className="flex justify-center mt-4">
-					</div>
+					<div className="flex justify-center mt-4"></div>
 				</div>
 			</div>
 
@@ -115,8 +115,7 @@ export default function LibraryPage() {
 				{/* Media Grid and Pagination */}
 				<div className="flex flex-col items-center justify-center w-full">
 					<MediaGrid mediaList={filteredMediaList} />
-					<div className="flex justify-center mt-4">
-					</div>
+					<div className="flex justify-center mt-4"></div>
 				</div>
 			</div>
 		</div>

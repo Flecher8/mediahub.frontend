@@ -1,11 +1,47 @@
+"use client";
 import { rounter } from "@/app/router";
 import { authStorage } from "@/services/auth/auth";
 import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faArrowRightFromBracket, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { SelectedCollection, SelectedCollectionService } from "@/services/storages/selectedCollectionService";
+import { useEffect, useState } from "react";
+import { CollectionsService } from "@/services/collectionsService";
 
-export default async function LoggedInHeader() {
+export default function LoggedInHeader() {
+	const user = authStorage.getUserData();
+	const userIsAuth = authStorage.isAuthorized();
+
+	const [collections, setCollections] = useState<SelectedCollection[]>([]);
+	const [current, setCurrent] = useState<SelectedCollection | null>(null);
+
+	// Load user collections + initial selection
+	useEffect(() => {
+		if (!user.id) return;
+		CollectionsService.getUserCollections(user.id)
+			.then(cols => {
+				// Map to only id+name
+				const list = cols.map(c => ({ id: c.collectionId, name: c.name }));
+				setCollections(list);
+
+				// load saved or pick first
+				const saved = SelectedCollectionService.get();
+				if (saved && list.some(c => c.id === saved.id)) {
+					setCurrent(saved);
+				} else if (list.length) {
+					setCurrent(list[0]);
+					SelectedCollectionService.set(list[0]);
+				}
+			})
+			.catch(console.error);
+	}, [user.id]);
+
+	const handleSelect = (col: SelectedCollection) => {
+		setCurrent(col);
+		SelectedCollectionService.set(col);
+	};
+
 	return (
 		<div className="navbar bg-base-200 px-4 container">
 			<div className="navbar-start">
@@ -75,6 +111,27 @@ export default async function LoggedInHeader() {
 				<Link href={rounter.about} className="btn btn-ghost normal-case text-lg">
 					About
 				</Link>
+				{/* Collections dropdown */}
+				<div className="dropdown dropdown-end">
+					<label
+						tabIndex={0}
+						className="btn btn-ghost flex items-center gap-2 max-w-[320px] overflow-hidden whitespace-nowrap">
+						<span className="truncate">{current?.name || "Select Collection"}</span>
+						<FontAwesomeIcon icon={faChevronDown} />
+					</label>
+					<ul tabIndex={0} className="dropdown-content menu bg-base-100 p-2 shadow rounded-box w-52">
+						{collections.map(col => (
+							<li key={col.id}>
+								<button
+									className="w-full text-left max-w-[320px] overflow-hidden whitespace-nowrap truncate"
+									onClick={() => handleSelect(col)}>
+									{col.name}
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
+
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
 					<FontAwesomeIcon icon={faUser} />
 				</Link>
@@ -84,6 +141,22 @@ export default async function LoggedInHeader() {
 			</div>
 
 			<div className="flex md:hidden lg:hidden navbar-end space-x-4">
+				{/* Collections dropdown */}
+				<div className="dropdown dropdown-end">
+					<label tabIndex={0} className="btn btn-ghost flex items-center gap-2">
+						{current?.name || "Select Collection"}
+						<FontAwesomeIcon icon={faChevronDown} />
+					</label>
+					<ul tabIndex={0} className="dropdown-content menu bg-base-100 p-2 shadow rounded-box w-52">
+						{collections.map(col => (
+							<li key={col.id}>
+								<button className="w-full text-left" onClick={() => handleSelect(col)}>
+									{col.name}
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
 				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
 					<FontAwesomeIcon icon={faUser} />
 				</Link>
