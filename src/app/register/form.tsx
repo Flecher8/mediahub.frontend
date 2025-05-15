@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "@/services/auth/authService";
 import { redirect } from "next/dist/server/api-utils";
+import { useState } from "react";
 
 // Define the Zod schema for registration with password confirmation
 const registrationSchema = z
@@ -20,28 +21,29 @@ const registrationSchema = z
 // Infer the form data type from the schema
 type RegistrationFormInputs = z.infer<typeof registrationSchema>;
 
-export default function RegistrationForm() {
+interface RegisterFormProps {
+	onSuccess: () => void;
+}
+
+export default function RegistrationForm({ onSuccess }: RegisterFormProps) {
 	const { register, handleSubmit, control } = useForm<RegistrationFormInputs>({
 		resolver: zodResolver(registrationSchema)
 	});
 
 	// Subscribe to form state (errors)
 	const { errors } = useFormState({ control });
+	const [serverError, setServerError] = useState<string | null>(null);
 
 	const onSubmit = async (data: RegistrationFormInputs) => {
-		// Extract only the email and password to send to the backend
-		const registrationData = {
+		setServerError(null);
+		const { error } = await registerUser({
 			email: data.email,
 			password: data.password
-		};
-
-		const result = await registerUser(registrationData);
-		if (result.success) {
-			// redirect(null, '/');
-			console.log("Login successful", result.success);
+		});
+		if (error) {
+			setServerError(error);
 		} else {
-			// Handle error (e.g. show an error message in the UI)
-			console.error("Login error:", result.error ? result.error : "");
+			onSuccess();
 		}
 	};
 
@@ -88,7 +90,7 @@ export default function RegistrationForm() {
 				/>
 				{errors.confirmPassword && <span className="text-red-500 text-sm">{errors.confirmPassword.message}</span>}
 			</div>
-
+			{serverError && <p className="text-red-500 text-sm mt-1">{serverError}</p>}
 			<div className="form-control mt-6 flex justify-center">
 				<button type="submit" className="btn btn-accent text-lg">
 					Register

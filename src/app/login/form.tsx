@@ -3,6 +3,7 @@ import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "@/services/auth/authService";
+import { useState } from "react";
 
 // Define the Zod schema for validation
 const loginSchema = z.object({
@@ -13,28 +14,29 @@ const loginSchema = z.object({
 // Infer the form data type from the schema
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
-export default function LoginForm() {
+interface LoginFormProps {
+	onSuccess: () => void;
+}
+
+export default function LoginForm({ onSuccess }: LoginFormProps) {
 	const { register, handleSubmit, control } = useForm<LoginFormInputs>({
 		resolver: zodResolver(loginSchema)
 	});
 
 	// Subscribe to form state (errors)
 	const { errors } = useFormState({ control });
+	const [serverError, setServerError] = useState<string | null>(null);
 
 	const onSubmit = async (data: LoginFormInputs) => {
-		// Extract only the email and password to send to the backend
-		const loginData = {
+		setServerError(null);
+		const { error } = await loginUser({
 			email: data.email,
 			password: data.password
-		};
-
-		const result = await loginUser(loginData);
-		if (result.success) {
-			// Handle success (e.g. redirect or show a success message)
-			console.log("Login successful", result.success);
+		});
+		if (error) {
+			setServerError(error);
 		} else {
-			// Handle error (e.g. show an error message in the UI)
-			console.error("Login error:", result.error ? result.error : '');
+			onSuccess();
 		}
 	};
 

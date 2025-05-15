@@ -1,6 +1,7 @@
 import api from "@/lib/api";
 import apiEndpoints from "@/lib/apiEndpoints";
 import { ApiResponse } from "@/types/apiResponse";
+import { AuthStore, UserData } from "./auth";
 
 export interface LoginData {
 	email: string;
@@ -12,50 +13,36 @@ export interface RegistrationData {
 	password: string;
 }
 
-export async function loginUser(loginData: LoginData): Promise<ApiResponse> {
+export async function registerUser(data: RegistrationData): Promise<ApiResponse> {
 	try {
-		// Call the login endpoint with the query parameter "useCookies=true"
-		const response = await api.post(apiEndpoints.auth.login + "?useCookies=true", loginData);
+		// 1) Create account
+		await api.post(apiEndpoints.auth.register, data);
 
-		// The axios instance is configured with withCredentials: true,
-		// so any cookies set by the backend (like .AspNetCore.Identity.Application) are saved automatically.
-
-		// Save the email to localStorage for later use
-		if (typeof window !== "undefined") {
-			localStorage.setItem("userEmail", loginData.email);
-		}
-		// TODO add get userId
-
-		// Return the response data (it could be a user object, token, etc.)
-		return { success: true};
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (error: any) {
-		if (error instanceof Error) console.log(error.stack);
-		// Extract a useful error message from the response if available
-		const errorMessage =
-			error.response && error.response.data ? error.response.data : error.message || "An unexpected error occurred.";
-		return { error: errorMessage };
+		// 2) Immediately log in
+		return await loginUser({ email: data.email, password: data.password });
+	} catch (err: any) {
+		// console.error("Registration failed:", err);
+		const message = err.response?.data?.error || err.response?.data?.message || err.message || "Registration failed";
+		return { error: message };
 	}
 }
 
-export async function registerUser(data: RegistrationData): Promise<ApiResponse> {
+export async function loginUser(loginData: LoginData): Promise<ApiResponse> {
 	try {
-		// Call the registration endpoint
-		const response = await api.post(apiEndpoints.auth.register, data);
+		// 1) Perform login (cookies, etc.)
+		await api.post(apiEndpoints.auth.login, loginData);
 
-		// Optionally, save the email in localStorage for later use
-		if (typeof window !== "undefined") {
-			localStorage.setItem("userEmail", data.email);
-		}
+		// 2) Fetch the user’s ID by email
+		const { data } = await api.get<{ userId: string }>(`/api/Users/by-email/${encodeURIComponent(loginData.email)}`);
+		const user: UserData = { id: data.userId, email: loginData.email };
 
-		// TODO add get login and userId
+		// 3) Persist into AuthStore
+		AuthStore.setUserData(user);
 
 		return { success: true };
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (error: any) {
-		if (error instanceof Error) console.error(error.stack);
-		const errorMessage =
-			error.response && error.response.data ? error.response.data : error.message || "An unexpected error occurred.";
-		return { error: errorMessage };
+	} catch (err: any) {
+		// console.error("Login failed:", err);
+		const message = err.response?.data?.error || err.response?.data?.message || err.message || "Login failed";
+		return { error: message };
 	}
 }

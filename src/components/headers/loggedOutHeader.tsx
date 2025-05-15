@@ -1,3 +1,4 @@
+"use client";
 import { rounter } from "@/app/router";
 import Link from "next/link";
 

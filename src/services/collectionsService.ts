@@ -116,13 +116,18 @@ export class CollectionsService {
 	 *  Get all users who have access to a collection.
 	 */
 	static async getUsersInCollection(collectionId: string): Promise<User[]> {
-		try {
+		return [
+			{ id: "1", email: "example1@gmail.com" },
+			{ id: "2", email: "example2@gmail.com" }
+		];
+
+		/* try {
 			const { data } = await api.get<User[]>(`/collections/${collectionId}/users`);
 			return data;
 		} catch (err: any) {
 			console.error("Failed to fetch users in collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error fetching users");
-		}
+		} */
 	}
 
 	/**

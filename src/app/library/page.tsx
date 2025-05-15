@@ -5,7 +5,7 @@ import { RecommendationService } from "@/services/recommendationService";
 import { MediaContent } from "@/types/mediaContent";
 import { useEffect, useState } from "react";
 
-import { authStorage } from "@/services/auth/auth";
+import { AuthStore } from "@/services/auth/auth";
 import { SelectedCollectionService } from "@/services/storages/selectedCollectionService";
 const MEDIA_TYPES = ["Film", "Serial", "Game", "Anime", "Manga"];
 

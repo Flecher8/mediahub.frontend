@@ -5,5 +5,5 @@ export const rounter = {
 	library: "/library",
 	collections: "/collections",
 	about: "/about",
-	profile(userId: string){ return (`/profile/` + userId)}
+	profile: "/profile"
 };

@@ -1,6 +1,6 @@
 "use client";
 import { rounter } from "@/app/router";
-import { authStorage } from "@/services/auth/auth";
+import { AuthStore, UserData } from "@/services/auth/auth";
 import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,17 +8,21 @@ import { faUser, faArrowRightFromBracket, faChevronDown } from "@fortawesome/fre
 import { SelectedCollection, SelectedCollectionService } from "@/services/storages/selectedCollectionService";
 import { useEffect, useState } from "react";
 import { CollectionsService } from "@/services/collectionsService";
+import { useRouter } from "next/navigation";
 
-export default function LoggedInHeader() {
-	const user = authStorage.getUserData();
-	const userIsAuth = authStorage.isAuthorized();
+interface LoggedInHeaderProps {
+	user: UserData | null;
+}
+
+export default function LoggedInHeader({ user }: LoggedInHeaderProps) {
+	const nextNav = useRouter();
 
 	const [collections, setCollections] = useState<SelectedCollection[]>([]);
 	const [current, setCurrent] = useState<SelectedCollection | null>(null);
 
 	// Load user collections + initial selection
 	useEffect(() => {
-		if (!user.id) return;
+		if (!user) return;
 		CollectionsService.getUserCollections(user.id)
 			.then(cols => {
 				// Map to only id+name
@@ -35,12 +39,24 @@ export default function LoggedInHeader() {
 				}
 			})
 			.catch(console.error);
-	}, [user.id]);
+	}, [user]);
 
 	const handleSelect = (col: SelectedCollection) => {
 		setCurrent(col);
 		SelectedCollectionService.set(col);
 	};
+
+	const handleLogout = (e: React.MouseEvent) => {
+		e.preventDefault();
+		AuthStore.clear();
+
+		// tell everyone auth just changed
+		window.dispatchEvent(new Event("auth-change"));
+
+		nextNav.push(rounter.home);
+	};
+
+	if (!user) return;
 
 	return (
 		<div className="navbar bg-base-200 px-4 container">
@@ -132,10 +148,10 @@ export default function LoggedInHeader() {
 					</ul>
 				</div>
 
-				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
+				<Link href={rounter.profile} className="btn btn-accent normal-case text-lg">
 					<FontAwesomeIcon icon={faUser} />
 				</Link>
-				<Link href={rounter.registration} className="btn btn-accent btn-outline normal-case text-lg">
+				<Link href={"/"} onClick={handleLogout} className="btn btn-accent btn-outline normal-case text-lg">
 					<FontAwesomeIcon icon={faArrowRightFromBracket} />
 				</Link>
 			</div>
@@ -157,10 +173,10 @@ export default function LoggedInHeader() {
 						))}
 					</ul>
 				</div>
-				<Link href={rounter.login} className="btn btn-accent normal-case text-lg">
+				<Link href={rounter.profile} className="btn btn-accent normal-case text-lg">
 					<FontAwesomeIcon icon={faUser} />
 				</Link>
-				<Link href={rounter.login} className="btn btn-accent btn-outline normal-case text-lg">
+				<Link href={"/"} onClick={handleLogout} className="btn btn-accent btn-outline normal-case text-lg">
 					<FontAwesomeIcon icon={faArrowRightFromBracket} />
 				</Link>
 			</div>

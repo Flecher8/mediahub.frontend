@@ -2,7 +2,7 @@
 import { MediaContent } from "@/types/mediaContent";
 import React, { useEffect, useState } from "react";
 import { MediaService } from "@/services/mediaService";
-import { authStorage } from "@/services/auth/auth";
+import { AuthStore } from "@/services/auth/auth";
 
 interface UserInteractionProps {
 	mediaContent: MediaContent;
@@ -12,10 +12,11 @@ export default function UserInteraction({ mediaContent }: UserInteractionProps) 
 	const [score, setScore] = useState<number | undefined>(undefined);
 	const [error, setError] = useState<string | null>(null);
 
-	const user = authStorage.getUserData();
+	const user = AuthStore.getUserData();
 
 	useEffect(() => {
 		if (!mediaContent) return;
+		if (!user) return;
 		MediaService.getMediaScore(mediaContent.mediaContentId, user.id)
 			.then(setScore)
 			.catch(e => setError(e.message));

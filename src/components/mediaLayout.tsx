@@ -2,7 +2,7 @@
 import React from "react";
 import UserInteraction from "@/components/userInteraction";
 import { MediaContent } from "@/types/mediaContent";
-import { authStorage } from "@/services/auth/auth";
+import { AuthStore } from "@/services/auth/auth";
 
 interface MediaLayoutProps {
 	mediaContent: MediaContent;
@@ -36,7 +36,7 @@ export default function MediaLayout({ mediaContent, children }: MediaLayoutProps
 							</div>
 
 							{/* User interaction: score select + add to collection button */}
-							{authStorage.isAuthorized() ? <UserInteraction mediaContent={mediaContent} /> : ""}
+							{AuthStore.isAuthorized() ? <UserInteraction mediaContent={mediaContent} /> : ""}
 						</div>
 						<p>Release Date: {mediaContent.releaseDate.toDateString()}</p>
 						<div className="">
