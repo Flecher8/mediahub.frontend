@@ -9,14 +9,14 @@ export class SerialsService {
 	 * @returns        a Promise resolving to the Serial object
 	 */
 	static async getSerialByMediaId(mediaId: string): Promise<Serial> {
-		return getFakeSerialByMediaId(mediaId);
+		// return getFakeSerialByMediaId(mediaId);
 
-		/* try {
-      const response = await api.get<Serial>(`/serials/${mediaId}`);
+		try {
+      const response = await api.get<Serial>(`/api/Serials/by-media/${mediaId}`);
       return response.data;
     } catch (err: any) {
       console.error("Failed to fetch serial by mediaId:", err);
       throw new Error(err?.response?.data?.message || err.message || "Unknown error fetching serial");
-    } */
+    }
 	}
 }

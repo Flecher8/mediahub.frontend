@@ -9,10 +9,10 @@ export class MediaService {
 	 * @returns        a Promise resolving to the MediaContent
 	 */
 	static async getMediaById(mediaId: string): Promise<MediaContent | undefined> {
-		return testMedia.find(m => m.mediaContentId === mediaId);
+		// return testMedia.find(m => m.mediaContentId === mediaId);
 
-		/* try {
-      const response = await api.get<MediaContent>(`/media/${mediaId}`);
+		try {
+      const response = await api.get<MediaContent>(`/api/MediaContents/${mediaId}`);
       return response.data;
     } catch (err: any) {
       console.error("Failed to fetch media by ID:", err);
@@ -21,7 +21,7 @@ export class MediaService {
         err.message ||
         "Unknown error fetching media"
       );
-    } */
+    }
 	}
 
 	/**

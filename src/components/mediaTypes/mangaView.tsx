@@ -28,7 +28,7 @@ export default function MangaView({ mediaContent }: MangaViewProps) {
 		return <div>Error</div>;
 	}
 
-	const { rank, numberOfVolumes, numberOfChapters, startDate, endDate, authors } = manga;
+	const { rank, numberOfVolumes, numberOfChapters, startDate, endDate, mangaAuthors: authors } = manga;
 
 	return (
 		<MediaLayout mediaContent={mediaContent}>
@@ -36,9 +36,9 @@ export default function MangaView({ mediaContent }: MangaViewProps) {
 				<p>Rank: {rank}</p>
 				<p>Volumes: {numberOfVolumes}</p>
 				<p>Chapters: {numberOfChapters}</p>
-				<p>Start Date: {startDate.toDateString()}</p>
-				<p>End Date: {endDate.toDateString()}</p>
 				<p>Authors: {authors.map(a => a.name).join(", ")}</p>
+				<p>Start Date: {new Date(startDate).toDateString()}</p>
+				<p>End Date: {new Date(endDate).toDateString()}</p>
 			</div>
 		</MediaLayout>
 	);

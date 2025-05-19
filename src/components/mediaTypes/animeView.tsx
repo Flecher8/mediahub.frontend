@@ -37,8 +37,8 @@ export default function AnimeView({ mediaContent }: AnimeViewProps) {
 				<p>Rank: {rank}</p>
 				<p>Episodes: {numberOfEpisodes}</p>
 				<p>Studios: {animeStudios.map(st => st.name).join(", ")}</p>
-				<p>Start: {startDate.toDateString()}</p>
-				<p>End: {endDate.toDateString()}</p>
+				<p>Start Date: {new Date(startDate).toDateString()}</p>
+				<p>End Date: {new Date(endDate).toDateString()}</p>
 			</div>
 		</MediaLayout>
 	);

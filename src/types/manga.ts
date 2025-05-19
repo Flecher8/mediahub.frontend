@@ -9,5 +9,5 @@ export interface Manga {
   numberOfVolumes: number;
   numberOfChapters: number;
   mediaContent: MediaContent;
-  authors: MangaAuthor[];
+  mangaAuthors: MangaAuthor[];
 }

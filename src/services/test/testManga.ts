@@ -24,6 +24,6 @@ export function getFakeMangaByMediaId(mediaId: string): Manga {
       genres: [{ genreId: "g2", name: "Adventure" }],
       mediaContentType: { typeId: "3", name: "Manga" },
     },
-    authors: authors,
+    mangaAuthors: authors,
   };
 }

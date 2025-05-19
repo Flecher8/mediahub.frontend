@@ -9,6 +9,8 @@ interface MediaLayoutProps {
 	children: React.ReactNode; // For type-specific details
 }
 
+const isMissingImage = "https://as1.ftcdn.net/v2/jpg/00/95/33/18/1000_F_95331883_vDtEwXTSqXWdhHn7iSvnICpHHIF5ihtU.jpg";
+
 export default function MediaLayout({ mediaContent, children }: MediaLayoutProps) {
 	return (
 		<div className="container mx-auto p-4">
@@ -17,9 +19,9 @@ export default function MediaLayout({ mediaContent, children }: MediaLayoutProps
 				{/* Left column: Main Image */}
 				<div className="min-h-[400px]">
 					<img
-						src={mediaContent.mainPictureLink}
+						src={mediaContent.mainPictureLink === null ? isMissingImage : mediaContent.mainPictureLink}
 						alt={mediaContent.title}
-						className="object-cover w-full h-full rounded"
+						className="w-full h-full rounded max-h-[400px]"
 					/>
 				</div>
 
@@ -38,7 +40,7 @@ export default function MediaLayout({ mediaContent, children }: MediaLayoutProps
 							{/* User interaction: score select + add to collection button */}
 							{AuthStore.isAuthorized() ? <UserInteraction mediaContent={mediaContent} /> : ""}
 						</div>
-						<p>Release Date: {mediaContent.releaseDate.toDateString()}</p>
+						<p>Release Date: {new Date(mediaContent.releaseDate).toDateString()}</p>
 						<div className="">
 							Genres:{" "}
 							{mediaContent.genres.map(g => (
@@ -55,7 +57,10 @@ export default function MediaLayout({ mediaContent, children }: MediaLayoutProps
 				{/* Bottom row: Description (spanning both columns on md+) */}
 				<div className="col-span-1 md:col-span-2 mt-4">
 					<h2 className="text-2xl font-bold">Description</h2>
-					<p className="mt-2">{mediaContent.description}</p>
+					<div
+						className="mt-2 prose" /* optional: adds nice typography if you have Tailwind Typography plugin */
+						dangerouslySetInnerHTML={{ __html: mediaContent.description }}
+					/>
 				</div>
 			</div>
 		</div>

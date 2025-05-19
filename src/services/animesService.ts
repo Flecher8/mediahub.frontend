@@ -9,14 +9,14 @@ export class AnimesService {
    * @returns        a Promise resolving to the Anime object
    */
   static async getAnimeByMediaId(mediaId: string): Promise<Anime> {
-    return getFakeAnimeByMediaId(mediaId);
+    // return getFakeAnimeByMediaId(mediaId);
     
-    /* try {
-      const response = await api.get<Anime>(`/animes/${mediaId}`);
+    try {
+      const response = await api.get<Anime>(`/api/Anime/by-media/${mediaId}`);
       return response.data;
     } catch (err: any) {
       console.error("Failed to fetch anime by mediaId:", err);
       throw new Error(err?.response?.data?.message || err.message || "Unknown error fetching anime");
-    } */
+    }
   }
 }

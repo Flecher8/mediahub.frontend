@@ -9,14 +9,14 @@ export class GamesService {
 	 * @returns        a Promise resolving to the Game object
 	 */
 	static async getGameByMediaId(mediaId: string): Promise<Game> {
-    return getFakeGameByMediaId(mediaId);
-    
-		/* try {
-			const response = await api.get<Game>(`/games/${mediaId}`);
+		// return getFakeGameByMediaId(mediaId);
+
+		try {
+			const response = await api.get<Game>(`/api/Games/by-media/${mediaId}`);
 			return response.data;
 		} catch (err: any) {
 			console.error("Failed to fetch game by mediaId:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Unknown error fetching game");
-		} */
+		}
 	}
 }

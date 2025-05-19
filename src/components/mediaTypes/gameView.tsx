@@ -29,14 +29,22 @@ export default function GameView({ mediaContent }: GameViewProps) {
 		return <div>Error</div>;
 	}
 
-	const { gameDevelopers: developers, gamePublishers: publishers, gamePlatforms: platforms, metacriticRating, playtimeHours } = game;
+	const {
+		gameDevelopers: developers,
+		gamePublishers: publishers,
+		gamePlatforms: platforms,
+		gameTags: tags,
+		metacriticRating,
+		playtimeHours
+	} = game;
 
 	return (
 		<MediaLayout mediaContent={mediaContent}>
 			<div className="space-y-3">
 				<p>Metacritic: {metacriticRating}</p>
 				<p>Playtime: {playtimeHours} hours</p>
-				<p className="">Developers: {developers.map(d => d.name).join(", ")}</p>
+				<p>Developers: {developers.map(d => d.name).join(", ")}</p>
+				<p>Tags: {tags.map(d => d.name).join(", ")}</p>
 				<p>Publishers: {publishers.map(p => p.name).join(", ")}</p>
 				<p>Platforms: {platforms.map(pl => pl.name).join(", ")}</p>
 			</div>
