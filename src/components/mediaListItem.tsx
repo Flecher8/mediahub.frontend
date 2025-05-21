@@ -1,4 +1,3 @@
-// components/MediaListItem.tsx
 "use client";
 import { MediaContent } from "@/types/mediaContent";
 import { useState } from "react";

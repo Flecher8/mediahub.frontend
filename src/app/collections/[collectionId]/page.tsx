@@ -58,7 +58,7 @@ export default function CollectionPage() {
 			</div>
 			<div className="flex justify-center w-full p-4">
 				{/* Media List */}
-				<MediaList mediaItems={collection.mediaItems} collectionId={collection.collectionId} />
+				<MediaList mediaItems={collectionMedia} collectionId={collection.collectionId} />
 			</div>
 		</div>
 	);

@@ -23,7 +23,7 @@ export class CollectionsService {
 	 */
 	static async createCollection(userId: string, name: string): Promise<void> {
 		try {
-			await api.post(`/collections/create/userId/${userId}/name/${name}`);
+			await api.post(`/api/RecommendationCollections/`, { creatorUserId: userId, name: name });
 		} catch (err: any) {
 			console.error("Failed to create user collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error creating collection");
@@ -34,46 +34,47 @@ export class CollectionsService {
 	 *  Get collection by id.
 	 */
 	static async getCollectionById(collectionId: string): Promise<RecommendationCollection | undefined> {
-		const collection = testCollection.find(c => c.collectionId === collectionId);
-		return collection;
+		/* const collection = testCollection.find(c => c.collectionId === collectionId);
+		return collection; */
 
-		/* try {
-			await api.post(`/collections/${collectionId}`);
+		try {
+			const { data } = await api.get(`/api/RecommendationCollections/${collectionId}`);
+			return data;
 		} catch (err: any) {
 			console.error("Failed to get collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error getting collection");
-		} */
+		}
 	}
 
 	/**
 	 *  Fetch all collections belonging to a user.
 	 */
 	static async getUserCollections(userId: string): Promise<RecommendationCollection[]> {
-		return testCollection;
-
-		/* try {
-			const { data } = await api.get<RecommendationCollection[]>(`/collections/collectionsByUser/${userId}`);
+		try {
+			const { data } = await api.get<RecommendationCollection[]>(`/api/RecommendationCollections/user/${userId}`);
 			return data;
 		} catch (err: any) {
 			console.error("Failed to fetch user collections:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error fetching collections");
-		} */
+		}
 	}
 
 	/**
 	 *  Get all media items in a collection.
 	 */
 	static async getMediaInCollection(collectionId: string): Promise<MediaContent[]> {
-		const collection = testCollection.find(c => c.collectionId === collectionId);
-		return collection !== undefined ? collection.mediaItems : [];
+		/* const collection = testCollection.find(c => c.collectionId === collectionId);
+		return collection !== undefined ? collection.mediaItems : []; */
 
-		/* try {
-			const { data } = await api.get<MediaContent[]>(`/collections/${collectionId}/mediaList`);
+		try {
+			const { data } = await api.get<MediaContent[]>(
+				`/api/MediaInteractionStatuses/collection/${collectionId}/media`
+			);
 			return data;
 		} catch (err: any) {
 			console.error("Failed to fetch media in collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error fetching collection media");
-		} */
+		}
 	}
 
 	/**
@@ -81,7 +82,7 @@ export class CollectionsService {
 	 */
 	static async removeMediaFromCollection(collectionId: string, mediaId: string): Promise<void> {
 		try {
-			await api.delete(`/collections/${collectionId}/media/${mediaId}`);
+			await api.delete(`/api/MediaInteractionStatuses/collection/${collectionId}/media/${mediaId}`);
 		} catch (err: any) {
 			console.error("Failed to remove media from collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error removing media");
@@ -93,7 +94,10 @@ export class CollectionsService {
 	 */
 	static async addUserToCollection(collectionId: string, userEmail: string): Promise<void> {
 		try {
-			await api.post(`/collections/${collectionId}/users`, { email: userEmail });
+			await api.post(`/api/RecommendationCollections/${collectionId}/users`, {
+				collectionId: collectionId,
+				userEmail: userEmail
+			});
 		} catch (err: any) {
 			console.error("Failed to add user to collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error adding user");
@@ -105,7 +109,7 @@ export class CollectionsService {
 	 */
 	static async removeUserFromCollection(collectionId: string, userId: string): Promise<void> {
 		try {
-			await api.delete(`/collections/${collectionId}/users/${userId}`);
+			await api.delete(`/api/RecommendationCollections/${collectionId}/users/${userId}`);
 		} catch (err: any) {
 			console.error("Failed to remove user from collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error removing user");
@@ -135,7 +139,7 @@ export class CollectionsService {
 	 */
 	static async deleteCollection(collectionId: string): Promise<void> {
 		try {
-			await api.delete(`/collections/${collectionId}`);
+			await api.delete(`/api/RecommendationCollections/${collectionId}`);
 		} catch (err: any) {
 			console.error("Failed to delete collection:", err);
 			throw new Error(err?.response?.data?.message || err.message || "Error deleting collection");

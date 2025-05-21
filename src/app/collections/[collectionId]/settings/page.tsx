@@ -13,6 +13,7 @@ import DeleteCollectionModal from "@/components/models/deleteCollectionModal";
 
 import { User } from "@/types/user";
 import { CollectionsService } from "@/services/collectionsService";
+import { RecommendationCollection } from "@/types/recommendationCollection";
 
 export default function CollectionSettingsPage() {
 	const params = useParams();
@@ -21,7 +22,8 @@ export default function CollectionSettingsPage() {
 
 	// Local UI state
 	const [collectionName, setCollectionName] = useState("");
-	const [users, setUsers] = useState<User[]>([]);
+	const [collection, setCollectcion] = useState<RecommendationCollection>();
+	// const [users, setUsers] = useState<User[]>([]);
 	const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 	const [userToDelete, setUserToDelete] = useState<User | null>(null);
 	const [isDeleteCollectionModalOpen, setIsDeleteCollectionModalOpen] = useState(false);
@@ -33,12 +35,15 @@ export default function CollectionSettingsPage() {
 		// 1) Fetch collection for its name
 		CollectionsService.getCollectionById(collectionId)
 			.then(col => {
-				if (col) setCollectionName(col.name);
+				if (col) {
+					setCollectcion(col);
+					setCollectionName(col.name);
+				}
 			})
 			.catch(console.error);
 
 		// 2) Fetch users in this collection
-		CollectionsService.getUsersInCollection(collectionId).then(setUsers).catch(console.error);
+		// CollectionsService.getUsersInCollection(collectionId).then(setUsers).catch(console.error);
 	}, [collectionId]);
 
 	if (!collectionId) return <div>Missing collectionId</div>;
@@ -82,12 +87,19 @@ export default function CollectionSettingsPage() {
 		if (!collectionId || !userToDelete) return;
 		try {
 			await CollectionsService.removeUserFromCollection(collectionId, userToDelete.id);
-			setUsers(prev => prev.filter(u => u.id !== userToDelete.id));
+			// setUsers(prev => prev.filter(u => u.id !== userToDelete.id));
 			setUserToDelete(null);
+			window.location.reload();
 		} catch (e) {
 			console.error(e);
 		}
 	};
+
+	if (!collection) {
+		return "Error loading collection";
+	}
+
+	const userAccessList = collection.recommendationCollectionUserAccesses ?? [];
 
 	return (
 		<div className="p-4 space-y-6 w-full container mx-auto">
@@ -102,7 +114,7 @@ export default function CollectionSettingsPage() {
 			{/* Edit Section */}
 			<div className="card bg-base-100 shadow-xl p-4 gap-5">
 				<h2 className="text-xl font-bold mb-2">Edit</h2>
-				<div className="form-control mb-4">
+				{/* <div className="form-control mb-4">
 					<label className="label">Name</label>
 					<input
 						type="text"
@@ -110,11 +122,11 @@ export default function CollectionSettingsPage() {
 						value={collectionName}
 						onChange={e => setCollectionName(e.target.value)}
 					/>
-				</div>
+				</div> */}
 				<div className="flex gap-4 justify-between">
-					<button className="btn btn-success btn-outline" onClick={handleSaveChanges}>
+					{/* <button className="btn btn-success btn-outline" onClick={handleSaveChanges}>
 						Save Changes
-					</button>
+					</button> */}
 					<button className="btn btn-error btn-outline" onClick={() => setIsDeleteCollectionModalOpen(true)}>
 						Delete Collection
 					</button>
@@ -138,7 +150,7 @@ export default function CollectionSettingsPage() {
 							</tr>
 						</thead>
 						<tbody>
-							{users.map(user => (
+							{userAccessList.map(({ user }) => (
 								<tr key={user.id}>
 									<td>{user.email}</td>
 									<td>
@@ -148,7 +160,7 @@ export default function CollectionSettingsPage() {
 									</td>
 								</tr>
 							))}
-							{users.length === 0 && (
+							{userAccessList.length === 0 && (
 								<tr>
 									<td colSpan={2} className="text-center">
 										No users in this collection.
