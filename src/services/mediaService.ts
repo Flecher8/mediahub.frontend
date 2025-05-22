@@ -25,29 +25,6 @@ export class MediaService {
 	}
 
 	/**
-	 * Get the current user's score for a given media.
-	 * Returns the numeric value or null if none set.
-	 */
-	static async getMediaScore(collectionId: string, mediaId: string): Promise<number | undefined> {
-		// TESTING STUB: always null
-		return undefined;
-
-		// REAL API CALL (uncomment when backend endpoint exists)
-
-		/* try {
-			const { data } = await api.get<{ value: number }>(`/media/${mediaId}/score/${userId}`);
-			return data.value;
-		} catch (err: any) {
-			if (err.response?.status === 404) {
-				// no score set
-				return null;
-			}
-			console.error("Failed to fetch media score:", err);
-			throw new Error(err?.response?.data?.message || err.message || "Unknown error fetching score");
-		} */
-	}
-
-	/**
 	 * Set (or update) the collectionId's score for a given media.
 	 * @param collectionId  ID of the collectionId setting the score
 	 * @param mediaId ID of the media to score
