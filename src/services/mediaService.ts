@@ -12,45 +12,11 @@ export class MediaService {
 		// return testMedia.find(m => m.mediaContentId === mediaId);
 
 		try {
-      const response = await api.get<MediaContent>(`/api/MediaContents/${mediaId}`);
-      return response.data;
-    } catch (err: any) {
-      console.error("Failed to fetch media by ID:", err);
-      throw new Error(
-        err?.response?.data?.message ||
-        err.message ||
-        "Unknown error fetching media"
-      );
-    }
-	}
-
-	/**
-	 * Set (or update) the collectionId's score for a given media.
-	 * @param collectionId  ID of the collectionId setting the score
-	 * @param mediaId ID of the media to score
-	 * @param value   Score value (e.g. 1-10)
-	 */
-	static async setMediaScore(collectionId: string, mediaId: string, value: number): Promise<void> {
-		// TESTING STUB: no-op
-		console.log(`(stub) set score ${value?.toString()} for media ${mediaId} by user ${collectionId}`);
-		return;
-
-    // ! value can be 0, then delete evaluation for media for user
-
-		// REAL API CALL (uncomment when backend endpoint exists)
-
-    /* try {
-      await api.post(`/media/${mediaId}/score`, {
-        userId,
-        value,
-      });
-    } catch (err: any) {
-      console.error("Failed to set media score:", err);
-      throw new Error(
-        err?.response?.data?.message ||
-        err.message ||
-        "Unknown error setting score"
-      );
-    } */
+			const response = await api.get<MediaContent>(`/api/MediaContents/${mediaId}`);
+			return response.data;
+		} catch (err: any) {
+			console.error("Failed to fetch media by ID:", err);
+			throw new Error(err?.response?.data?.message || err.message || "Unknown error fetching media");
+		}
 	}
 }

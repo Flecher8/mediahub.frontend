@@ -20,7 +20,6 @@ export default function MediaList({ mediaItems, collectionId }: MediaListProps) 
 
 	const handleConfirmDelete = () => {
 		if (selectedMedia) {
-			console.log(`Deleting media ${selectedMedia.mediaContentId} from collection ${collectionId}`);
 			CollectionsService.removeMediaFromCollection(collectionId, selectedMedia.mediaContentId);
 			window.location.reload();
 		}

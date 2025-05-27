@@ -7,10 +7,9 @@ interface MediaGridProps {
 
 export default function MediaGrid({ mediaList }: MediaGridProps) {
   return (
-    // <div className="flex flex-wrap items-center md:justify-between justify-center gap-3">
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(275px,1fr))] gap-12 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-24 justify-items-center">
       {mediaList.map((media) => (
-        <div key={media.mediaContentId}>
+        <div key={media.mediaContentId} className="w-[300px] h-[600px]">
           <MediaCard media={media} />
         </div>
       ))}
