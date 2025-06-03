@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { MediaContent } from "@/types/mediaContent";
-import { SelectedCollectionService } from "@/services/storages/selectedCollectionService";
+import { SelectedCollection, SelectedCollectionService } from "@/services/storages/selectedCollectionService";
 import { MediaInteractionStatus } from "@/types/mediaInteractionStatus";
 import { MediaInteractionStatusService } from "@/services/mediaInteractionStatusService";
 import { ContentStatus } from "@/types/contentStatus";
@@ -21,7 +21,7 @@ export default function UserInteraction({ mediaContent }: Props) {
 	const [error, setError] = useState<string | null>(null);
 
 	// once-only
-	const currentCollection = useMemo(() => SelectedCollectionService.get(), []);
+	const [currentCollection, setCurrentCollection] = useState<SelectedCollection | null>(null);
 
 	// your fixed label map:
 	const evaluationLabels: Record<string, string> = {
@@ -41,6 +41,15 @@ export default function UserInteraction({ mediaContent }: Props) {
 		() => Object.entries(evaluationLabels).sort((a, b) => Number(b[0]) - Number(a[0])),
 		[]
 	);
+
+	useEffect(() => {
+		SelectedCollectionService.get()
+			.then(col => setCurrentCollection(col))
+			.catch(err => {
+				console.error("Failed to load selected collection", err);
+				// you might setError here if you have one
+			});
+	}, []);
 
 	// load global lists once
 	useEffect(() => {

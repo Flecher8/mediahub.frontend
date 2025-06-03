@@ -22,28 +22,46 @@ export default function LibraryPage() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
+	// the currently selected collection, or null if none
 	const [currentCollection, setCurrentCollection] = useState<SelectedCollection | null>(null);
+
+	// flag: have we finished loading `SelectedCollectionService.get()`?
+	const [isCollectionLoaded, setIsCollectionLoaded] = useState(false);
 
 	// debounce timer
 	const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
-	// load selected collection once
+	// 1) Load the selected collection once, then mark "loaded"
 	useEffect(() => {
 		SelectedCollectionService.get()
-			.then(setCurrentCollection)
-			.catch(e => setError(e.message));
+			.then(col => {
+				setCurrentCollection(col);
+			})
+			.catch(e => {
+				setError(e.message);
+			})
+			.finally(() => {
+				// whether we got a collection or not, mark as "done loading"
+				setIsCollectionLoaded(true);
+			});
 	}, []);
 
-	// refresh totalPages when collection changes
+	// 2) Once we know the selected collection (or know there is none), fetch total pages
 	useEffect(() => {
+		if (!isCollectionLoaded) return;
+
+		// whenever collection changes, reset page to 1 and load total pages
+		setPage(1);
 		RecommendationService.getTotalPages(currentCollection?.id ?? null)
 			.then(setTotalPages)
 			.catch(e => setError(e.message));
-		setPage(1);
-	}, [currentCollection]);
+	}, [isCollectionLoaded, currentCollection]);
 
-	// Main loader: search only at >=3 chars; empty → recs; 1–2 chars → do nothing
+	// 3) Main loader: either search (>=3 chars), do nothing (1–2 chars), or fetch recommendations
+	//    but only run AFTER collection has finished loading.
 	useEffect(() => {
+		if (!isCollectionLoaded) return;
+
 		setIsLoading(true);
 		const term = searchTerm.trim();
 
@@ -67,7 +85,10 @@ export default function LibraryPage() {
 		}
 
 		// exactly empty: paginated recs
-		if (searchTimeout.current) clearTimeout(searchTimeout.current);
+		if (searchTimeout.current) {
+			clearTimeout(searchTimeout.current);
+		}
+
 		RecommendationService.getRecommendations(currentCollection?.id ?? null, page)
 			.then(setMediaList)
 			.catch(e => setError(e.message))
@@ -76,7 +97,7 @@ export default function LibraryPage() {
 		return () => {
 			if (searchTimeout.current) clearTimeout(searchTimeout.current);
 		};
-	}, [searchTerm, currentCollection, page]);
+	}, [searchTerm, currentCollection, page, isCollectionLoaded]);
 
 	const toggleType = (type: string) =>
 		setSelectedTypes(prev => (prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]));

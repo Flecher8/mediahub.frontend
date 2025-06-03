@@ -6,6 +6,11 @@ const api = axios.create({
 	timeout: 10000 // Optional timeout setting
 });
 
+export const slowApi = axios.create({
+	baseURL: process.env.NEXT_PUBLIC_API_URL,
+	timeout: 60_000 // 60 s default for this instance
+});
+
 // Optionally, add interceptors for request/response handling
 api.interceptors.request.use(config => {
 	// You could add auth tokens here or modify headers if needed
